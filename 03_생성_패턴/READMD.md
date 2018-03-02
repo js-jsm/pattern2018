@@ -13,8 +13,6 @@ class Ruler {
 
 ## 3-1. 추상 팩토리
 
-### 추상 팩토리
-
 ```js
 // p78
 class KingJoffery {
@@ -71,7 +69,7 @@ lannisterCourtSession.complaintPresented({ severity: 8 })
 lannisterCourtSession.complaintPresented({ severity: 12 })
 ```
 
-### 빌더
+## 3-2. 빌더
 
 ```js
 // p81
@@ -121,7 +119,7 @@ class TournamentBuilder {
 }
 ```
 
-### 팩토리 메소드
+## 3-3. 팩토리 메소드
 
 ```js
 // p86
@@ -159,7 +157,7 @@ class Prayer {
 }
 ```
 
-### 단일체 (Singleton)
+## 3-4. 단일체 (Singleton)
 
 ```js
 // p89
@@ -190,7 +188,7 @@ const Wall = (() => {
 })()
 ```
 
-### 프로토타입
+## 3-5. 프로토타입
 
 ```js
 // p92
