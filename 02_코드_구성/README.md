@@ -17,7 +17,6 @@
 모듈은 정적인 메소드만 포함하는 클래스와 같다.
 
 ## 전역 범위 (Global Scope)
-***
 ```js
 var hello = "hello"
 world = "world"
@@ -31,7 +30,6 @@ Node.js 에서는 global 객체에 할당 된다.
 전역 변수는 다른 코드에 의해 쉽게 영향을 받을 수 있기 때문에 지양 하는 것이 좋다.
 
 ## 객체 (Object)
-***
  - Undefined
  - Null
  - Boolean
@@ -81,7 +79,6 @@ functionObject.doThings() // "hello world"
 this 키워드는 함수의 소유자에 바인딩되어 있지만, 종종 우리가 기대하는 바와 다를수 있다.
 
 ## 프로토 타입 구축
-***
 구조체를 사용해 객체를 생성할 경우 복수의 객체를 생성하는데 **시간**이 많이 걸리고 많은 **메모리**를 필요로 한다.
 
 생성 방식이 동일하더라도 각각의 객체는 완전히 다른 객체이다.
@@ -149,7 +146,6 @@ instance3.name = "Highgarden"
 instance3.build() // "Winterfell"
 ```
 ## 상속
-***
 #### 고통스러운 방법
 ```js
 var Castle = function() {}
@@ -182,7 +178,6 @@ winterfell.build() // "Castle built"
 ```
 
 ## 모듈
-***
 ```js
 var Westeros = Westeros || {}
 Westeros.Castle = function(name) { this.name = name; }
@@ -259,7 +254,6 @@ var Westeros;
 
 
 ## ES6 Class 와 모듈
-***
 ```js
 class Castle extends Westeros.Structures.BaseStructure {
     constructor(name, allegience) {
