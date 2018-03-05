@@ -35,8 +35,9 @@ Node.js 에서는 global 객체에 할당 된다.
  - Boolean
  - String
  - Number
+ - Symbol (ES6 New)
 
-Boolean, String, Number만이 원시 데이터 타입 래퍼를 가진다.
+Null, Undefined 를 제외한 원시 데이터 타입은 타입 래퍼를 가진다.
 
 이는 객체와 원시 데이터를 혼합 해서 사용하는 자바와 동일한 모델 이다.
 
@@ -76,7 +77,7 @@ var functionObject = {
 functionObject.doThings() // "hello world"
 ```
 
-this 키워드는 함수의 소유자에 바인딩되어 있지만, 종종 우리가 기대하는 바와 다를수 있다.
+this 키워드는 함수의 소유자에 바인딩되어 있지만, 종종 우리가 기대하는 바와 다를수 있다. 
 
 ## 프로토 타입 구축
 구조체를 사용해 객체를 생성할 경우 복수의 객체를 생성하는데 **시간**이 많이 걸리고 많은 **메모리**를 필요로 한다.
