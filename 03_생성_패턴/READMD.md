@@ -119,6 +119,88 @@ class TournamentBuilder {
 }
 ```
 
+>> Builder Pattern example
+```js
+class Pizza {
+    setDough (dough) {
+        this.dough = dough
+    }
+    setSauce (sauce) {
+        this.sauce = sauce
+    }
+    setTopping (topping) {
+        this.topping = topping
+    }
+}
+
+class PizzaBuilder {
+    createPizza () {
+        this.pizza = new Pizza()
+    }
+    getPizza () {
+        return this.pizza
+    }
+    buildDough () {
+        if(new.target === PizzaBuilder) {
+            throw new Error('should overide this method!')
+        }
+    }
+    buildSauce () {
+        if(new.target === PizzaBuilder) {
+            throw new Error('should overide this method!')
+        }
+    }
+    buildTopping () {
+        if(new.target === PizzaBuilder) {
+            throw new Error('should overide this method!')
+        }
+    }
+}
+
+class HawaiianPizzaBuilder extends PizzaBuilder {
+    buildDough () {
+        this.pizza.setDough('cross')
+    }
+    buildSauce () {
+        this.pizza.setSauce('mild')
+    }
+    buildTopping () {
+        this.pizza.setTopping('ham & pineapple')
+    }
+}
+class SpicyPizza extends PizzaBuilder {
+    buildDough () {
+        this.pizza.setDough('pan baked')
+    }
+    buildSauce () {
+        this.pizza.setSauce('hot')
+    }
+    buildTopping () {
+        this.pizza.setTopping('pepperoni & salami')
+    }
+}
+
+class Cook {
+    setPizzaBuilder (builder) {
+        this.pizzaBuilder = builder
+    }
+    getPizza () {
+        return this.pizzaBuilder.getPizza()
+    }
+    cookPizza () {
+        this.pizzaBuilder.createPizza()
+        this.pizzaBuilder.buildDough()
+        this.pizzaBuilder.buildSauce()
+        this.pizzaBuilder.buildTopping()
+    }
+}
+
+const cook = new Cook()
+cook.setPizzaBuilder(new HawaiianPizzaBuilder())
+cook.cookPizza()
+console.log(cook.getPizza())
+```
+
 ## 3-3. 팩토리 메소드
 
 ```js
@@ -156,6 +238,67 @@ class Prayer {
   }
 }
 ```
+
+>> Factory Method Pattern examples
+```js
+class Car {
+  constructor (type, color) {
+    this.type = type
+    this.color = color
+  }
+}
+class CarFactoryMethod {
+  produce (carName, color) {
+    return new Car(carName, color)
+  }
+}
+const cf = new CarFactoryMethod()
+const bmw = cf.produce('Bmw', 'White')
+const ss = cf.produce('Audi', 'Black')
+```
+
+```js
+class Pizza {
+    constructor () {
+        this.price = 0
+    }
+    getPrice () {
+        return this.price
+    }
+}
+class HamAndMushroomPizza extends Pizza{
+    constructor () {
+		super()
+        this.price = 8.50
+    }
+}
+class DeluxePizza extends Pizza {
+    constructor () {
+		super()
+        this.price = 10.50
+    }
+}
+class DefaultPizza extends Pizza {
+    constructor () {
+		super()
+        this.price = 6.50
+    }
+}
+class PizzaFactoryMethod {
+    createPizza (type) {
+        switch(type) {
+            case 'Ham and Mushroom': return new HamAndMushroomPizza()
+            case 'Deluxe': return new DeluxePizza()
+            default: return new DefaultPizza()
+        }
+    }
+}
+const pfm = new PizzaFactoryMethod()
+const hnm = pfm.createPizza('Ham and Mushroom')
+const dlx = pfm.createPizza('Deluxe')
+console.log(hnm.getPrice(), dlx.getPrice())
+```
+
 
 ## 3-4. 단일체 (Singleton)
 
