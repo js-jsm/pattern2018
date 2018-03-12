@@ -158,3 +158,90 @@ class SevenGodsAdapter {
 }
 
 ```
+
+## Composite
+
+```js
+class SimpleIngredient {
+  constructor(name, calories, ironContent, vitaminCContent) {
+    this.name = name
+    this.calories = calories
+    this.ironContent = ironContent
+    this.vitaminCContent = vitaminCContent
+  }
+  
+  get getName() {
+    return this.name
+  }
+  
+  get getCalories() {
+    return this.calories
+  }
+  
+  get getIronContent() {
+    return this.ironContent
+  }
+  
+  get getVitaminCContent() {
+    return this.vitaminCContent
+  }
+  
+}
+
+class CompoundIngredient {
+  constructor(name) {
+    this.name = name
+    this.ingredients = []
+    this.ingredientReduce = this.ingredientReduce.bind(this)
+  }
+  
+  addingIngredient(ingredient) {
+    this.ingredients.push(ingredient)
+  }
+  
+  ingredientReduce(target) {
+    if (!this.ingredients.length) {
+      return 0
+    } else if (this.ingredients.length === 1) {
+      return a[target]
+    } else {
+      const isNumber = value => Object.prototype.toString.call(value) === '[object Number]'
+      return this.ingredients.reduce((a, b) => (isNumber(a) ? a : a[target]) + b[target])
+    }
+  }
+  
+  get getName() {
+   return this.name
+  }
+  
+  get getCalories() {
+    const calories = 'getCalories'
+    return this.ingredientReduce(calories)
+  }
+  
+  get getIronContent() {
+    const iron = 'getIronContent'
+    return this.ingredientReduce(iron)
+  }
+  
+  get getVitaminCContent() {
+    const vitaminC = 'getVitaminCContent'
+    return this.ingredientReduce(vitaminC)
+  }
+  
+}
+
+const egg = new SimpleIngredient('Egg', 155, 6, 0)
+const milk = new SimpleIngredient('Milk', 42, 0, 0)
+const sugar = new SimpleIngredient('Sugar', 387, 0, 0)
+const rice = new SimpleIngredient('Rice', 370, 8, 0)
+
+const ricePudding = new CompoundIngredient('Rice Pudding')
+
+ricePudding.addingIngredient(egg)
+ricePudding.addingIngredient(milk)
+ricePudding.addingIngredient(sugar)
+ricePudding.addingIngredient(rice)
+
+console.log(ricePudding.getCalories)
+```
