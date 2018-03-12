@@ -7,3 +7,5 @@
 [황원준](./HWANGTAN.md)
 
 [정재남](./jaenam.md)
+
+[현진호](./JINHO.md)
