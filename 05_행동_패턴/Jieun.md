@@ -205,7 +205,75 @@ josephus.deliver('Jew', '우리 땅에서 물러가라!');
 ```
 
 ## 메멘토 패턴
+이전 상태로 객체의 상태를 복원할 수 있는 방법을 제공한다.
+메멘토는 변수의 이전값에 대한 기록을 유지하고 복원하는 기능을 제공한다.
+명령에 대한 메멘토를 유지하면 복구가 힘든 명령을 쉽게 복원할 수 있다. 
 
+```javascript
+var SquareCommand = (function () {
+    function SquareCommand(numberToSquare) {
+        this.numberToSquare = numberToSquare;
+    }
+    SquareCommand.prototype.Execute = function () {
+        this.numberToSquare *= this.numberToSquare;
+    };
+    return SquareCommand;
+})();
+Foretelling.SquareCommand = SquareCommand;
+
+var WorldState = (function () {
+    function WorldState(numberOfKings, currentKingInKingsLanding, season) {
+        this.numberOfKings = numberOfKings;
+        this.currentKingInKingsLanding = currentKingInKingsLanding;
+        this.season = season;
+    }
+    return WorldState;
+})();
+Foretelling.WorldState = WorldState;
+
+var Soothsayer = (function () {
+    function Soothsayer() {
+        this.startingPoints = [];
+        this.currentState = new WorldStateProvider();
+    }
+    Soothsayer.prototype.setInitialConditions = function (numberOfKings, currentKingInKingsLanding, season) {
+        this.currentState.numberOfKings = numberOfKings;
+        this.currentState.currentKingInKingsLanding = currentKingInKingsLanding;
+        this.currentState.season = season;
+    };
+    Soothsayer.prototype.alterNumberOfKingsAndForetell = function (numberOfKings) {
+        this.startingPoints.push(this.currentState.saveMemento());
+        this.currentState.numberOfKings = numberOfKings;
+    };
+    Soothsayer.prototype.alterSeasonAndForetell = function (season) {
+        this.startingPoints.push(this.currentState.saveMemento());
+        this.currentState.season = season;
+    };
+    Soothsayer.prototype.alterCurrentKingInKingsLandingAndForetell = function (currentKingInKingsLanding) {
+        this.startingPoints.push(this.currentState.saveMemento());
+        this.currentState.currentKingInKingsLanding = currentKingInKingsLanding;
+    };
+    Soothsayer.prototype.tryADifferentChange = function () {
+        this.currentState.restoreMemento(this.startingPoints.pop());
+    };
+    return Soothsayer;
+})();
+Foretelling.Soothsayer = Soothsayer;
+
+var WorldStateProvider = (function () {
+    function WorldStateProvider() {
+    }
+    WorldStateProvider.prototype.saveMemento = function () {
+        return new WorldState(this.numberOfKings, this.currentKingInKingsLanding, this.season);
+    };
+    WorldStateProvider.prototype.restoreMemento = function (memento) {
+        this.numberOfKings = memento.numberOfKings;
+        this.currentKingInKingsLanding = memento.currentKingInKingsLanding;
+        this.season = memento.season;
+    };
+    return WorldStateProvider;
+})();
+```
 ## 옵저버 패턴
 
 ## 상태패턴
