@@ -129,7 +129,6 @@ var Battle = (function () {
     }
     return Battle;
 })();
-History.Battle = Battle;
 
 var Parser = (function () {
     function Parser(battleText) {
@@ -145,7 +144,9 @@ var Parser = (function () {
     };
     return Parser;
 })();
-History.Parser = Parser;
+
+var parser = new Parser('aa->bb->at');
+console.dir(parser.nextBattle())
 ```
 ## Iterator Pattern
 반복자 패턴은 객체 들의 집합 내 이동은 매우 일반적인 문제여서 많은 언어들이 이 집합들 내에서 이동하는 특별한 생성자를 제공한다. 
@@ -160,7 +161,6 @@ var KingSuccession = (function () {
     };
     return KingSuccession;
 })();
-Succession.KingSuccession = KingSuccession;
 
 var FibonacciIterator = (function () {
     function FibonacciIterator() {
@@ -175,6 +175,13 @@ var FibonacciIterator = (function () {
     };
     return FibonacciIterator;
 })();
+
+var fibo = new FibonacciIterator();
+console.log(fibo.next())//2
+console.log(fibo.next())//3
+console.log(fibo.next())//5 
+// ...
+
 ```
 
 ## Mediator Pattern(중재자 패턴)
@@ -182,26 +189,28 @@ var FibonacciIterator = (function () {
 다양한 컴포넌트의 중간에 위치하여 메세지의 경로 변경이 이루어지는 유일한 장소로써의 동작
 
 ```javascript
-var Josephus = (function() {
-  function Josephus() {
+var BroadCast = (function() {
+  function BroadCast() {
     this.participants = [];
   }
-  Josephus.prototype.register = function(participant) {
+  BroadCast.prototype.register = function(participant) {
     this.participants.push(participant);
   };
-  Josephus.prototype.deliver = function(sender, message) {
+  BroadCast.prototype.deliver = function(sender, message) {
     this.participants.forEach(function(participant) {
       if (participant !== sender) {
         console.log(sender + '님이 ' + participant + '님에게 "' + message + '"라고 말합니다.');
       }
     });
   };
-  return Josephus;
+  return BroadCast;
 })();
-var josephus = new Josephus();
-josephus.register('Jew');
-josephus.register('Roman');
-josephus.deliver('Jew', '우리 땅에서 물러가라!');
+var broadcast = new BroadCast();
+broadcast.register('MBC');
+broadcast.register('JTBC');
+broadcast.register('SBS');
+broadcast.register('KBS');
+broadcast.deliver('JTBC', ' 방송 방송');
 ```
 
 ## 메멘토 패턴
@@ -219,7 +228,6 @@ var SquareCommand = (function () {
     };
     return SquareCommand;
 })();
-Foretelling.SquareCommand = SquareCommand;
 
 var WorldState = (function () {
     function WorldState(numberOfKings, currentKingInKingsLanding, season) {
@@ -229,7 +237,6 @@ var WorldState = (function () {
     }
     return WorldState;
 })();
-Foretelling.WorldState = WorldState;
 
 var Soothsayer = (function () {
     function Soothsayer() {
@@ -258,7 +265,6 @@ var Soothsayer = (function () {
     };
     return Soothsayer;
 })();
-Foretelling.Soothsayer = Soothsayer;
 
 var WorldStateProvider = (function () {
     function WorldStateProvider() {
@@ -273,11 +279,176 @@ var WorldStateProvider = (function () {
     };
     return WorldStateProvider;
 })();
+
+
 ```
 ## 옵저버 패턴
+객체의 값이 변할 때 그 변화를 알고 싶을 때 유용하게 사용한다.
+브라우저에서 DOM의 모든 다양한 이벤트 리스너는 감시자 패턴으로 구현된다.
+예를 들어 제이쿼리 라이브러리를 사용할 때, 다음 라인과 같이 페이지에 있는 모든 버튼의 클릭 에빈트를 구독할 수 있다. 
 
-## 상태패턴
+```javascript
+var GetterSetter = (function () {
+    function GetterSetter() {
+    }
+    GetterSetter.prototype.GetProperty = function () {
+        return this._property;
+    };
+    GetterSetter.prototype.SetProperty = function (value) {
+        var temp = this._property;
+        this._property = value;
+        this._listener.Event(value, temp);
+    };
+    return GetterSetter;
+})();
 
+var Listener = (function () {
+    function Listener() {
+    }
+    Listener.prototype.Event = function (newValue, oldValue) {
+        //do something
+        console.log('event is invoked');
+    };
+    return Listener;
+})();
+
+var Spy = (function () {
+    function Spy() {
+        this._partiesToNotify = [];
+    }
+    Spy.prototype.Subscribe = function (subscriber) {
+        this._partiesToNotify.push(subscriber);
+    };
+
+    Spy.prototype.Unsubscribe = function (subscriber) {
+        this._partiesToNotify.remove(subscriber);
+    };
+
+    Spy.prototype.SetPainKillers = function (painKillers) {
+        this._painKillers = painKillers;
+        for (var i = 0; i < this._partiesToNotify.length; i++) {
+            this._partiesToNotify[i](painKillers);
+        }
+    };
+    return Spy;
+})();
+
+var Player = (function () {
+    function Player() {
+    }
+    Player.prototype.OnKingPainKillerChange = function (newPainKillerAmount) {
+        //perform some action
+        console.log(newPainKillerAmount + ' is pain point of the king');
+    };
+    return Player;
+})();
+
+var s = new Spy();
+var p = new Player();
+s.Subscribe(p.OnKingPainKillerChange);//p is subscriber
+s.SetPainKillers(12);
+```
+## State Machine 상태패턴
+상태 패턴은 내부 상태를 추상화 하고 클래스로 구현된 상태들 사이의 메세지를 프록시로 전달 하는 상태 관리자(State Manager)를 가지는 것을 특징으로 한다.
+
+```javascript
+var NaiveBanking = (function () {
+    function NaiveBanking() {
+        this.state = "";
+        this.balance = 0;
+    }
+    NaiveBanking.prototype.NextState = function (action, amount) {
+        if (this.state == "overdrawn" && action == "withdraw") {
+            this.state = "on hold";
+        }
+        if (this.state == "on hold" && action != "deposit") {
+            this.state = "on hold";
+        }
+        if (this.state == "good standing" && action == "withdraw" && amount <= this.balance) {
+            this.balance -= amount;
+        }
+        if (this.state == "good standing" && action == "withdraw" && amount > this.balance) {
+            this.balance -= amount;
+            this.state = "overdrawn";
+        }
+    };
+    return NaiveBanking;
+})();
+
+var BankAccountManager = (function () {
+    function BankAccountManager() {
+        this.currentState = new GoodStandingState(this);
+    }
+    BankAccountManager.prototype.Deposit = function (amount) {
+        this.currentState.Deposit(amount);
+    };
+
+    BankAccountManager.prototype.Withdraw = function (amount) {
+        this.currentState.Withdraw(amount);
+    };
+    BankAccountManager.prototype.addToBalance = function (amount) {
+        this.balance += amount;
+    };
+    BankAccountManager.prototype.getBalance = function () {
+        return this.balance;
+    };
+    BankAccountManager.prototype.moveToState = function (newState) {
+        this.currentState = newState;
+    };
+    return BankAccountManager;
+})();
+
+var GoodStandingState = (function () {
+    function GoodStandingState(manager) {
+        this.manager = manager;
+    }
+    GoodStandingState.prototype.Deposit = function (amount) {
+        this.manager.addToBalance(amount);
+    };
+    GoodStandingState.prototype.Withdraw = function (amount) {
+        if (this.manager.getBalance() < amount) {
+            this.manager.moveToState(new OverdrawnState(this.manager));
+        }
+
+        this.manager.addToBalance(-1 * amount);
+    };
+    return GoodStandingState;
+})();
+
+var OverdrawnState = (function () {
+    function OverdrawnState(manager) {
+        this.manager = manager;
+    }
+    OverdrawnState.prototype.Deposit = function (amount) {
+        this.manager.addToBalance(amount);
+        if (this.manager.getBalance() > 0) {
+            this.manager.moveToState(new GoodStandingState(this.manager));
+        }
+    };
+    OverdrawnState.prototype.Withdraw = function (amount) {
+        this.manager.moveToState(new OnHold(this.manager));
+        throw "Cannot withdraw money from an already overdrawn bank account";
+    };
+    return OverdrawnState;
+})();
+
+var OnHold = (function () {
+    function OnHold(manager) {
+        this.manager = manager;
+    }
+    OnHold.prototype.Deposit = function (amount) {
+        this.manager.addToBalance(amount);
+        throw "Your account is on hold and you must attend the bank to resolve the issue";
+    };
+    OnHold.prototype.Withdraw = function (amount) {
+        throw "Your account is on hold and you must attend the bank to resolve the issue";
+    };
+    return OnHold;
+})();
+var goodStandingState = new GoodStandingState(new BankAccountManager());
+
+
+```
 ## 템플릿 메소드 패턴
 
 ## 비지터 패턴
