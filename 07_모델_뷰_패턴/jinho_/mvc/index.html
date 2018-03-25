@@ -1,0 +1,30 @@
+<!-- https://www.awwwards.com/build-a-simple-javascript-app-the-mvc-way.html -->
+
+<!doctype html>
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+</head>
+
+<body>
+
+  <div class="js-container">
+    <input type="text" class="js-task-textbox">
+    <input type="button" class="js-add-task-button" value="Add Task">
+
+    <div class="js-tasks-container"></div>
+    <input type="button" class="js-complete-task-button" value="Complete Tasks">
+    <input type="button" class="js-delete-task-button" value="Delete Tasks">
+  </div>
+
+  <script src="EventDispatcher.js"></script>
+  <script src="TaskModel.js"></script>
+  <script src="TaskView.js"></script>
+  <script src="TaskController.js"></script>
+  <script>
+    var model = new TaskModel(), view = new TaskView(model);
+    new TaskController(model, view)
+  </script>
+
+</body>
+</html>
