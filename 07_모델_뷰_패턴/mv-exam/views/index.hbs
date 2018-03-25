@@ -1,0 +1,11 @@
+<h1>{{title}}</h1>
+<form action="/user" method="post">
+    <input type="text" name="lastName" placeholder="성" />
+    <input type="text" name="firstName" placeholder="이름" />
+    <button type="submit">추가</button>
+</form>
+<ul>
+    {{#each users}}
+    <li>{{this.lastName}} {{this.firstName}}</li>
+    {{/each}}
+</ul>
