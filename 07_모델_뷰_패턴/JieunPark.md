@@ -1,12 +1,12 @@
 ## 1. MVVM 모델
 
-<span style="color:#555555">: MVVM 패턴의 ViewModel 레이어에 해당하는 View 라이브러리</span>
-<span style="color:#555555">![](./static/1.png)</span>
+<span style="color:#555555">: MVVM 패턴의 ViewModel 레이어에 해당하는 View 라이브러리</span>  
+<span style="color:#555555">![](./jieunpark_/1.png)</span>
 
 ## 2\. MVVM 구조
 
 MV에, `C(Controller)가 아닌 VM(ViewModel)`입니다.
-![](./static/2.png)
+![](./jieunpark_/2.png)
 구조상으로 보면, 모델과 뷰 사이에 위치하고 있습니다.
 모델로부터 어떤 데이터를 가져오는데, 그 데이터는 뷰에 적한한 형태의 데이터로 가공됩니다.
 그래서 뷰 모델이 변경될때마다 자동으로 그것과 연될되어있는 뷰화면에 반영이 되죠.
@@ -40,7 +40,7 @@ h1.innerHTML = model;
 viewModel.model = 'Hi ViewModel!'
 ```
 
-<span style="color:#555555">![](./static/3.gif)</span>
+<span style="color:#555555">![](./jieunpark_/3.gif)</span>
 
 ### 3.2. ViewModel 값 입력 후, 출력 내용 확인 해보기 1
 
@@ -56,4 +56,4 @@ viewModel.model  = 'merong?!'
 "merong"
 
 ```
-<span style="color:#555555">![](./static/4.gif)</span>
+<span style="color:#555555">![](./jieunpark_/4.gif)</span>
