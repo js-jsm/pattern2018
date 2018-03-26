@@ -47,6 +47,40 @@ ctrl.updateView();
 
 ## 2. MVP
 
+```js
+class Presenter {
+  constructor (view) {
+    this.view = view
+    view.setPresenter(this)
+  }
+  getWeather (latitude, longitude) {
+    const model = new Model(this);
+    model.getWeather(latitude, longitude)
+  }
+  callback (weather) {
+    this.view.showWeather(weather)
+  }
+}
+class Model {
+  constructor (cb) {
+    this.weatherCallback = cb
+  }
+  getWeather (latitude, longitude) {
+    this.weatherCallback.callback(`위도 ${latitude}, 경도 ${longitude}의 날씨는 모릅니다.`)
+  }
+}
+class View {
+  setPresenter (pres) {
+    this.presenter = pres
+  }
+  showWeather (weather) {
+    console.log(weather)
+  }
+}
+const pres = new Presenter(new View())
+pres.getWeather(10, 20)
+```
+
 
 ## 3. MVVM
 
