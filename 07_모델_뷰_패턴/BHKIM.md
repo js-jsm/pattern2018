@@ -306,3 +306,8 @@ class CreateCastleViewModel {
     }
 }
 ```
+
+### MVC vs MVP vs MVVM
+![](./bhkim_/img1.png)
+![](./bhkim_/img2.png)
+Ref. [MVC, MVP and MVVM Design Patterns]: https://www.slideshare.net/mudasirqazi00/design-patterns-mvc-mvp-and-mvvm
