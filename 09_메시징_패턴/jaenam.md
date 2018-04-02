@@ -66,14 +66,14 @@ jn.subscribe(sportsSeoul)
 jn.subscribe(bigissue)
 wj.subscribe(sportsSeoul)
 sportsSeoul.publish('4월 1일 조간신문')
-bigissue.publish('맥심 3월호')
+bigissue.publish('빅이슈 3월호')
 
 dh.subscribe(sportsSeoul)
 dh.subscribe(bigissue)
 sportsSeoul.publish('4월 1일 석간신문')
-bigissue.publish('맥심 3월호 2쇄')
+bigissue.publish('빅이슈 3월호 2쇄')
 
 jn.unsubscribe(sportsSeoul)
 sportsSeoul.publish('4월 2일 조간신문')
-bigissue.publish('맥심 4월호')
+bigissue.publish('빅이슈 4월호')
 ```
